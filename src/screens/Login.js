@@ -37,7 +37,7 @@ export default class Login extends Component {
 		formBody = formBody.join("&");
 
 		var proceed = false;
-	    fetch("https://big-jelly.apps.stormpath.io/oauth/token", {
+	    fetch("https://my-app-name.apps.stormpath.io/oauth/token", {
 	        method: "POST", 
 	        headers: {
 	          'Content-Type': 'application/x-www-form-urlencoded'
