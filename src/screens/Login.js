@@ -1,74 +1,74 @@
 import React, { Component } from 'react';
 import {
-	ScrollView,
-	Text,
-	TextInput,
-	View,
-	Button,
-	Alert,
-	ActivityIndicator
+    ScrollView,
+    Text,
+    TextInput,
+    View,
+    Button,
+    Alert,
+    ActivityIndicator
 } from 'react-native';
 
 export default class Login extends Component {
 
-	  state = {
-	  	username: '',
-	  	password: '',
-	    isLoggingIn: false,
-	    message: ''
-	  }
-
-	_userLogin = () => { 
-
-		this.setState({isLoggingIn: true, message:''});
-
-		var params = {
-		    username: this.state.username,
-		    password: this.state.password,
-		    grant_type: 'password'
-		};
-
-		var formBody = [];
-		for (var property in params) {
-		  var encodedKey = encodeURIComponent(property);
-		  var encodedValue = encodeURIComponent(params[property]);
-		  formBody.push(encodedKey + "=" + encodedValue);
-		}
-		formBody = formBody.join("&");
-
-		var proceed = false;
-	    fetch("https://my-app-name.apps.stormpath.io/oauth/token", {
-	        method: "POST", 
-	        headers: {
-	          'Content-Type': 'application/x-www-form-urlencoded'
-	        },
-	        body: formBody
-	      })
-	      .then((response) => response.json())
-	      .then((response) => {
-	      	if (response.error) this.setState({message: response.message});
-	      	else proceed = true;
-	      })
-	      .then(() => {
-	      	this.setState({isLoggingIn: false})
-	      	if (proceed) this.props.onLoginPress();
-	      })
-	      .done();
-	} 
-  
-    clearUsername = () => { 
-    	this._username.setNativeProps({text: ''});
-    	this.setState({message: ''});
-    }
-	
-	clearPassword = () => { 
-    	this._password.setNativeProps({text: ''});
-    	this.setState({message: ''});
+    state = {
+        username: '',
+        password: '',
+        isLoggingIn: false,
+        message: ''
     }
 
-	render() {
-		return (
-			<ScrollView style={{padding: 20}}>
+    _userLogin = () => {
+
+        this.setState({ isLoggingIn: true, message: '' });
+
+        var params = {
+            username: this.state.username,
+            password: this.state.password,
+            grant_type: 'password'
+        };
+
+        var formBody = [];
+        for (var property in params) {
+            var encodedKey = encodeURIComponent(property);
+            var encodedValue = encodeURIComponent(params[property]);
+            formBody.push(encodedKey + "=" + encodedValue);
+        }
+        formBody = formBody.join("&");
+
+        var proceed = false;
+        fetch("https://my-app-name.apps.stormpath.io/oauth/token", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: formBody
+            })
+            .then((response) => response.json())
+            .then((response) => {
+                if (response.error) this.setState({ message: response.message });
+                else proceed = true;
+            })
+            .then(() => {
+                this.setState({ isLoggingIn: false })
+                if (proceed) this.props.onLoginPress();
+            })
+            .done();
+    }
+
+    clearUsername = () => {
+        this._username.setNativeProps({ text: '' });
+        this.setState({ message: '' });
+    }
+
+    clearPassword = () => {
+        this._password.setNativeProps({ text: '' });
+        this.setState({ message: '' });
+    }
+
+    render() {
+        return (
+            <ScrollView style={{padding: 20}}>
 				<Text 
 					style={{fontSize: 27}}>
 					Login
@@ -102,6 +102,6 @@ export default class Login extends Component {
 		      		title="Submit"
 		      	/>
 	      </ScrollView>
-	    )
-	}
+        )
+    }
 }
