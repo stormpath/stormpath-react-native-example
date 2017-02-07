@@ -9,6 +9,8 @@ import {
     ActivityIndicator
 } from 'react-native';
 
+import Environment from '../../Environment';
+
 export default class Login extends Component {
 
     state = {
@@ -37,7 +39,7 @@ export default class Login extends Component {
         formBody = formBody.join("&");
 
         var proceed = false;
-        fetch("https://my-app-name.apps.stormpath.io/oauth/token", {
+        fetch("https://"+Environment.CLIENT_API+"/oauth/token", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -46,14 +48,17 @@ export default class Login extends Component {
             })
             .then((response) => response.json())
             .then((response) => {
-                if (response.error) this.setState({ message: response.message });
-                else proceed = true;
+                if (response.status==200) proceed = true;
+                else this.setState({ message: response.message });
             })
             .then(() => {
                 this.setState({ isLoggingIn: false })
                 if (proceed) this.props.onLoginPress();
             })
-            .done();
+            .catch(err => {
+				this.setState({ message: err.message });
+				this.setState({ isLoggingIn: false })
+			});
     }
 
     clearUsername = () => {
@@ -81,7 +86,7 @@ export default class Login extends Component {
 					onFocus={this.clearUsername}
 				/>
 				<TextInput 
-					ref='{component => this._password = component}'
+					ref={component => this._password = component}
 					placeholder='Password' 
 					onChangeText={(password) => this.setState({password})}
 					secureTextEntry={true}

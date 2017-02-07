@@ -14,8 +14,7 @@ Should work on Windows, Linux or Mac.
 ### Prerequisites
 
 You need an account with Stormpath (https://api.stormpath.com/register) and an application setup (https://docs.stormpath.com/console/product-guide/latest/getting-started.html).
-Make sure the fetch code in the Login component is calling
-your applications DNS entry. See https://docs.stormpath.com/console/product-guide/latest/applications.html#managing-an-application-s-client-api-configuration
+Make sure the CLIENT_API entry in Enviroment.js matches your DNS entry. See https://docs.stormpath.com/console/product-guide/latest/applications.html#managing-an-application-s-client-api-configuration
 for more.
 
 ### Installing
